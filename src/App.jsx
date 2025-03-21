@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { MoviesList } from './components/MoviesList';
 import moviesFromServer from './api/movies.json';
 
+const isQueryIncludes = (a, b) => {
+  return a.toLowerCase().trim().includes(b.toLowerCase().trim());
+};
+
 export const App = () => {
   const [visibleMovies, setVisibleMovies] = useState(moviesFromServer);
 
@@ -10,14 +14,8 @@ export const App = () => {
     setVisibleMovies(
       moviesFromServer.filter(
         movie =>
-          movie.title
-            .toLocaleLowerCase()
-            .trim()
-            .includes(query.trim().toLowerCase()) ||
-          movie.description
-            .toLowerCase()
-            .trim()
-            .includes(query.trim().toLowerCase()),
+          isQueryIncludes(movie.title, query) ||
+          isQueryIncludes(movie.description, query),
       ),
     );
   };
